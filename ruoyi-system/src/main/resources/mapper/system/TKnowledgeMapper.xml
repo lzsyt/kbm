@@ -42,16 +42,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN t_knowledge_sort s ON k.sort = s.id
         <where>
             <if test="ask != null  and ask != ''">
-             and k.ask  like concat('%', #{ask}'%')
+             and k.ask  like concat('%', #{ask},'%')
              </if>
             <if test="answer != null  and answer != ''">
-             and k.answer  like concat('%', #{answer}'%')
+             and k.answer  like concat('%', #{answer},'%')
              </if>
             <if test="dataOrg != null  and dataOrg != ''">
-             and k.data_org like concat('%', #{dataOrg} '%')
+             and k.data_org like concat('%', #{dataOrg}, '%')
              </if>
             <if test="shopNum != null  and shopNum != ''">
-             and k.shop_num like concat('%', #{shopNum} '%')
+             and k.shop_num like concat('%', #{shopNum}, '%')
              </if>
             <if test="productName != null  and productName != ''">
              and k.product_name like concat('%', #{productName}, '%')
