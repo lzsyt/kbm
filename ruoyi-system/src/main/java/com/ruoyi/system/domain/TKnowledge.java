@@ -72,7 +72,17 @@ public class TKnowledge extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private Date created;
 
+    private String keyword;
+
     private List<String> sorts;
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
 
     public List<String> getSorts() {

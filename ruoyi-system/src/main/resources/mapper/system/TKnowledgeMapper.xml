@@ -41,18 +41,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN t_org o ON k.data_org = o.data_org
         LEFT JOIN t_knowledge_sort s ON k.sort = s.id
         <where>
-            <if test="ask != null  and ask != ''"> and k.ask = #{ask}</if>
-            <if test="answer != null  and answer != ''"> and k.answer = #{answer}</if>
-            <if test="dataOrg != null  and dataOrg != ''"> and k.data_org = #{dataOrg}</if>
-            <if test="shopNum != null  and shopNum != ''"> and k.shop_num = #{shopNum}</if>
-            <if test="productName != null  and productName != ''"> and k.product_name like concat('%', #{productName}, '%')</if>
-            <if test="productFactory != null  and productFactory != ''"> and k.product_factory = #{productFactory}</if>
+            <if test="ask != null  and ask != ''">
+             and k.ask  like concat('%', #{ask}'%')
+             </if>
+            <if test="answer != null  and answer != ''">
+             and k.answer  like concat('%', #{answer}'%')
+             </if>
+            <if test="dataOrg != null  and dataOrg != ''">
+             and k.data_org like concat('%', #{dataOrg} '%')
+             </if>
+            <if test="shopNum != null  and shopNum != ''">
+             and k.shop_num like concat('%', #{shopNum} '%')
+             </if>
+            <if test="productName != null  and productName != ''">
+             and k.product_name like concat('%', #{productName}, '%')
+             </if>
+            <if test="productFactory != null  and productFactory != ''">
+             and k.product_factory like concat('%',  #{productFactory}, '%')
+             </if>
             <if test="sorts != null  and sorts.size  != ''">
                 and k.sort in
                 <foreach collection="sorts" index="index" item="item" separator="," open="(" close=")">
                     ${item}
                 </foreach>
              </if>
+            <if test="keyword !=null and keyword !=''">
+                and (k.id like "%"#{keyword}"%" or k.answer like "%"#{keyword}"%" or k.ask like "%"#{keyword}"%" or
+                k.shop_Num like "%"#{keyword}"%" or k.product_Name like "%"#{keyword}"%"
+                or o.name like "%"#{keyword}"%" or s.sort like "%"#{keyword}"%")
+            </if>
         </where>
     </select>
     
