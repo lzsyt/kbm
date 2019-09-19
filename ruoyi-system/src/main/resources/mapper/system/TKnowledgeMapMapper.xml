@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TKnowledgeMapMapper">
+    
+    <resultMap type="TKnowledgeMap" id="TKnowledgeMapResult">
+        <result property="id"    column="id"    />
+        <result property="knowledgeId"    column="knowledge_id"    />
+        <result property="numIid"    column="num_iid"    />
+    </resultMap>
+
+    <sql id="selectTKnowledgeMapVo">
+        select id, knowledge_id, num_iid from t_knowledge_map
+    </sql>
+
+    <select id="selectTKnowledgeMapList" parameterType="TKnowledgeMap" resultMap="TKnowledgeMapResult">
+        <include refid="selectTKnowledgeMapVo"/>
+        <where>  
+            <if test="knowledgeId != null  and knowledgeId != ''"> and knowledge_id = #{knowledgeId}</if>
+            <if test="numIid != null  and numIid != ''"> and num_iid = #{numIid}</if>
+        </where>
+    </select>
+    
+    <select id="selectTKnowledgeMapById" parameterType="Long" resultMap="TKnowledgeMapResult">
+        <include refid="selectTKnowledgeMapVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTKnowledgeMap" parameterType="TKnowledgeMap" useGeneratedKeys="true" keyProperty="id">
+        insert into t_knowledge_map
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="knowledgeId != null  and knowledgeId != ''">knowledge_id,</if>
+            <if test="numIid != null  and numIid != ''">num_iid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="knowledgeId != null  and knowledgeId != ''">#{knowledgeId},</if>
+            <if test="numIid != null  and numIid != ''">#{numIid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTKnowledgeMap" parameterType="TKnowledgeMap">
+        update t_knowledge_map
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="knowledgeId != null  and knowledgeId != ''">knowledge_id = #{knowledgeId},</if>
+            <if test="numIid != null  and numIid != ''">num_iid = #{numIid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTKnowledgeMapById" parameterType="Long">
+        delete from t_knowledge_map where id = #{id}
+    </delete>
+
+    <delete id="deleteTKnowledgeMapByIds" parameterType="String">
+        delete from t_knowledge_map where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

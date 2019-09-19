@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TOrgMapper">
+
+    <resultMap type="TOrg" id="TOrgResult">
+        <result property="id"    column="id"    />
+        <result property="fullName"    column="full_name"    />
+        <result property="name"    column="name"    />
+        <result property="orgCode"    column="org_code"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="dataOrg"    column="data_org"    />
+    </resultMap>
+
+    <sql id="selectTOrgVo">
+        select id, full_name, name, org_code, parent_id, data_org from t_org
+    </sql>
+
+    <select id="selectTOrgList" parameterType="TOrg" resultMap="TOrgResult">
+        <include refid="selectTOrgVo"/>
+        <where>
+            <if test="fullName != null  and fullName != ''"> and full_name like concat('%', #{fullName}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="orgCode != null  and orgCode != ''"> and org_code = #{orgCode}</if>
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="dataOrg != null  and dataOrg != ''"> and data_org = #{dataOrg}</if>
+        </where>
+    </select>
+
+    <select id="selectTOrgById" parameterType="String" resultMap="TOrgResult">
+        <include refid="selectTOrgVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTOrg" parameterType="TOrg">
+        insert into t_org
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="fullName != null  and fullName != ''">full_name,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="orgCode != null  and orgCode != ''">org_code,</if>
+            <if test="parentId != null  and parentId != ''">parent_id,</if>
+            <if test="dataOrg != null  and dataOrg != ''">data_org,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="fullName != null  and fullName != ''">#{fullName},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="orgCode != null  and orgCode != ''">#{orgCode},</if>
+            <if test="parentId != null  and parentId != ''">#{parentId},</if>
+            <if test="dataOrg != null  and dataOrg != ''">#{dataOrg},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTOrg" parameterType="TOrg">
+        update t_org
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fullName != null  and fullName != ''">full_name = #{fullName},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="orgCode != null  and orgCode != ''">org_code = #{orgCode},</if>
+            <if test="parentId != null  and parentId != ''">parent_id = #{parentId},</if>
+            <if test="dataOrg != null  and dataOrg != ''">data_org = #{dataOrg},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTOrgById" parameterType="String">
+        delete from t_org where id = #{id}
+    </delete>
+
+    <delete id="deleteTOrgByIds" parameterType="String">
+        delete from t_org where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

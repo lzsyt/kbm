@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TKnowledgeMapper">
+    
+    <resultMap type="TKnowledge" id="TKnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="ask"    column="ask"    />
+        <result property="answer"    column="answer"    />
+        <result property="dataOrg"    column="data_org"    />
+        <result property="imagePath"    column="image_path"    />
+        <result property="shopNum"    column="shop_num"    />
+        <result property="productName"    column="product_name"    />
+        <result property="videoPath"    column="video_path"    />
+        <result property="docPath"    column="doc_path"    />
+        <result property="buildTime"    column="build_time"    />
+        <result property="productFactory"    column="product_factory"    />
+        <result property="sort"    column="sort"    />
+        <result property="groupId"    column="group_id"    />
+        <result property="created"    column="created"    />
+    </resultMap>
+
+    <sql id="selectTKnowledgeVo">
+        select id, ask, answer, data_org, image_path, shop_num, product_name, video_path, doc_path, build_time, product_factory, sort, group_id, created from t_knowledge
+    </sql>
+
+    <select id="selectTKnowledgeList" parameterType="TKnowledge" resultMap="TKnowledgeResult">
+        SELECT
+        k.id,
+        k.ask,
+        k.answer,
+        k.product_name,
+        k.image_path,
+        k.product_factory,
+        k.shop_num,
+        o.NAME,
+        s.sort
+        FROM
+        t_knowledge k
+        LEFT JOIN t_org o ON k.data_org = o.data_org
+        LEFT JOIN t_knowledge_sort s ON k.sort = s.id
+        <where>
+            <if test="ask != null  and ask != ''"> and k.ask = #{ask}</if>
+            <if test="answer != null  and answer != ''"> and k.answer = #{answer}</if>
+            <if test="dataOrg != null  and dataOrg != ''"> and k.data_org = #{dataOrg}</if>
+            <if test="shopNum != null  and shopNum != ''"> and k.shop_num = #{shopNum}</if>
+            <if test="productName != null  and productName != ''"> and k.product_name like concat('%', #{productName}, '%')</if>
+            <if test="productFactory != null  and productFactory != ''"> and k.product_factory = #{productFactory}</if>
+            <if test="sorts != null  and sorts.size  != ''">
+                and k.sort in
+                <foreach collection="sorts" index="index" item="item" separator="," open="(" close=")">
+                    ${item}
+                </foreach>
+             </if>
+        </where>
+    </select>
+    
+    <select id="selectTKnowledgeById" parameterType="String" resultMap="TKnowledgeResult">
+        <include refid="selectTKnowledgeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTKnowledge" parameterType="TKnowledge">
+        insert into t_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="ask != null  and ask != ''">ask,</if>
+            <if test="answer != null  and answer != ''">answer,</if>
+            <if test="dataOrg != null  and dataOrg != ''">data_org,</if>
+            <if test="imagePath != null  and imagePath != ''">image_path,</if>
+            <if test="shopNum != null  and shopNum != ''">shop_num,</if>
+            <if test="productName != null  and productName != ''">product_name,</if>
+            <if test="videoPath != null  and videoPath != ''">video_path,</if>
+            <if test="docPath != null  and docPath != ''">doc_path,</if>
+            <if test="buildTime != null ">build_time,</if>
+            <if test="productFactory != null  and productFactory != ''">product_factory,</if>
+            <if test="sort != null ">sort,</if>
+            <if test="groupId != null ">group_id,</if>
+            <if test="created != null ">created,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="ask != null  and ask != ''">#{ask},</if>
+            <if test="answer != null  and answer != ''">#{answer},</if>
+            <if test="dataOrg != null  and dataOrg != ''">#{dataOrg},</if>
+            <if test="imagePath != null  and imagePath != ''">#{imagePath},</if>
+            <if test="shopNum != null  and shopNum != ''">#{shopNum},</if>
+            <if test="productName != null  and productName != ''">#{productName},</if>
+            <if test="videoPath != null  and videoPath != ''">#{videoPath},</if>
+            <if test="docPath != null  and docPath != ''">#{docPath},</if>
+            <if test="buildTime != null ">#{buildTime},</if>
+            <if test="productFactory != null  and productFactory != ''">#{productFactory},</if>
+            <if test="sort != null ">#{sort},</if>
+            <if test="groupId != null ">#{groupId},</if>
+            <if test="created != null ">#{created},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTKnowledge" parameterType="TKnowledge">
+        update t_knowledge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ask != null  and ask != ''">ask = #{ask},</if>
+            <if test="answer != null  and answer != ''">answer = #{answer},</if>
+            <if test="dataOrg != null  and dataOrg != ''">data_org = #{dataOrg},</if>
+            <if test="imagePath != null  and imagePath != ''">image_path = #{imagePath},</if>
+            <if test="shopNum != null  and shopNum != ''">shop_num = #{shopNum},</if>
+            <if test="productName != null  and productName != ''">product_name = #{productName},</if>
+            <if test="videoPath != null  and videoPath != ''">video_path = #{videoPath},</if>
+            <if test="docPath != null  and docPath != ''">doc_path = #{docPath},</if>
+            <if test="buildTime != null ">build_time = #{buildTime},</if>
+            <if test="productFactory != null  and productFactory != ''">product_factory = #{productFactory},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="groupId != null ">group_id = #{groupId},</if>
+            <if test="created != null ">created = #{created},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTKnowledgeById" parameterType="String">
+        delete from t_knowledge where id = #{id}
+    </delete>
+
+    <delete id="deleteTKnowledgeByIds" parameterType="String">
+        delete from t_knowledge where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

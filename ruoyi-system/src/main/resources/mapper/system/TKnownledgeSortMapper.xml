@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TKnownledgeSortMapper">
+    
+    <resultMap type="TKnownledgeSort" id="TKnownledgeSortResult">
+        <result property="id"    column="id"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+
+    <sql id="selectTKnownledgeSortVo">
+        select id, sort from t_knowledge_sort
+    </sql>
+
+    <select id="selectTKnownledgeSortList" parameterType="TKnownledgeSort" resultMap="TKnownledgeSortResult">
+        <include refid="selectTKnownledgeSortVo"/>
+        <where>  
+            <if test="sort != null  and sort != ''"> and sort = #{sort}</if>
+        </where>
+    </select>
+    
+    <select id="selectTKnownledgeSortById" parameterType="Integer" resultMap="TKnownledgeSortResult">
+        <include refid="selectTKnownledgeSortVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTKnownledgeSort" parameterType="TKnownledgeSort" useGeneratedKeys="true" keyProperty="id">
+        insert into t_knowledge_sort
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sort != null  and sort != ''">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sort != null  and sort != ''">#{sort},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTKnownledgeSort" parameterType="TKnownledgeSort">
+        update t_knowledge_sort
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sort != null  and sort != ''">sort = #{sort},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTKnownledgeSortById" parameterType="Integer">
+        delete from t_knowledge_sort where id = #{id}
+    </delete>
+
+    <delete id="deleteTKnownledgeSortByIds" parameterType="String">
+        delete from t_knowledge_sort where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
