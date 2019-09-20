@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('【请填写功能名称】列表')"/>
+    <th:block th:include="include :: header('知识库列表')"/>
 </head>
 <body class="gray-bg">
 <div class="container-div">
@@ -55,10 +55,10 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:knowledge:add">
+            <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="system:knowledge:add">
                 <i class="fa fa-plus"></i> 添加
             </a>
-            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+            <a class="btn btn-primary single disabled" onclick="$.operate.editTab()"
                shiro:hasPermission="system:knowledge:edit">
                 <i class="fa fa-edit"></i> 修改
             </a>

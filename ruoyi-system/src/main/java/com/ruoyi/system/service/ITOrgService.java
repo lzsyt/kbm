@@ -11,6 +11,11 @@ import java.util.List;
  */
 public interface ITOrgService 
 {
+
+
+    public List<TOrg> getChild(List<TOrg> orgs);
+
+
     /**
      * 查询【请填写功能名称】
      * 
