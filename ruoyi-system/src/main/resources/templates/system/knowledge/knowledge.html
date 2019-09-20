@@ -42,16 +42,17 @@
                         </li>
 
 
-                        <li id="sorts">
+                        <li >
 
                             <label th:each="sorts:${sorts}" class="check-box">
-                                <input name="sorts" type="checkbox" th:value="${sorts.id}" th:text="${sorts.sort}"  >
+                                <input name="sort_id" type="checkbox" th:value="${sorts.id}" th:text="${sorts.sort}"  >
                             </label>
+                            <input type="hidden" name="sorts"/>
 
 
                         </li>
                         <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="submitHandler()"><i
                                     class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
                                     class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -88,21 +89,20 @@
     var editFlag = [[${@permission.hasPermi('system:knowledge:edit')}]];
     var removeFlag = [[${@permission.hasPermi('system:knowledge:remove')}]];
     var prefix = ctx + "system/knowledge";
+    var submitHandler=function() {
+        if ($.validate.form()) {
 
+            var roleIds = $.form.selectCheckeds("sort_id");
+            console.log("sorts:"+roleIds);
+            $("[name='sorts']").val(roleIds);
+            $.table.search();
+        }
+    }
     $(function () {
-        // 问题分类
-        $.get("/system/sort/get", function (data, status) {
-            var sorts = $("#sorts");
-            var box = $("[name='box']").clone(true);
-            console.log("box:"+box.html());
 
-            for (var i = 0; i < data.length; i++) {
-                console.log("类型："+data[i].sort);
-                box.text(data[i].sort);
-
-               sorts.append(box);
-
-
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                submitHandler();
             }
         });
 
@@ -166,7 +166,11 @@
                 }]
         };
         $.table.init(options);
+
+
     });
+
+
 </script>
 </body>
 </html>
