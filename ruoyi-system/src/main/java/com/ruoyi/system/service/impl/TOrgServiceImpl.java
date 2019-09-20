@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.TOrgMapper;
@@ -19,6 +22,26 @@ public class TOrgServiceImpl implements ITOrgService
 {
     @Autowired
     private TOrgMapper tOrgMapper;
+
+
+
+    public List<TOrg> getChild(List<TOrg> orgs) {
+        List<TOrg> tOrgList = new ArrayList<>();
+        boolean flage;
+        for (TOrg org : orgs) {
+            String id = org.getId();
+            flage = false;
+            for (TOrg tOrg : orgs) {
+                if (StringUtils.isNotEmpty(tOrg.getParentId())&&tOrg.getParentId().equals(id)){
+                    flage = true;
+                }
+            }
+            if (!flage){
+                tOrgList.add(org);
+            }
+        }
+        return tOrgList;
+    }
 
     /**
      * 查询【请填写功能名称】

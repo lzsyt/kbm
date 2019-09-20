@@ -37,30 +37,14 @@ public class TOrgController extends BaseController
     @Autowired
     private ITOrgService tOrgService;
 
-    private List<TOrg> getChild(List<TOrg> orgs) {
-        List<TOrg> tOrgList = new ArrayList<>();
-        boolean flage;
-        for (TOrg org : orgs) {
-            String id = org.getId();
-            flage = false;
-            for (TOrg tOrg : orgs) {
-                if (StringUtils.isNotEmpty(tOrg.getParentId())&&tOrg.getParentId().equals(id)){
-                    flage = true;
-                }
-            }
-            if (!flage){
-                tOrgList.add(org);
-            }
-        }
-        return tOrgList;
-    }
+
 
 
     @RequestMapping("get")
     @ResponseBody
     public List<TOrg> getOrg(){
         List<TOrg> dborg = tOrgService.selectTOrgList(null);
-        List<TOrg> orgs = getChild(dborg);
+        List<TOrg> orgs =tOrgService.getChild(dborg);
         for (TOrg org : orgs) {
             for (TOrg tOrg : dborg) {
                 if (StringUtils.isNotEmpty(tOrg.getParentId())&& org.getId().equals(tOrg.getParentId())){

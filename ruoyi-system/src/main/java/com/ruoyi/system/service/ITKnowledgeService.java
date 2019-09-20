@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import com.ruoyi.system.domain.TKnowledge;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 /**
@@ -31,17 +33,19 @@ public interface ITKnowledgeService
      * 新增【请填写功能名称】
      * 
      * @param tKnowledge 【请填写功能名称】
+     * @param file
      * @return 结果
      */
-    public int insertTKnowledge(TKnowledge tKnowledge);
+    public int insertTKnowledge(TKnowledge tKnowledge, MultipartFile[] file);
 
     /**
      * 修改【请填写功能名称】
      * 
      * @param tKnowledge 【请填写功能名称】
+     * @param file
      * @return 结果
      */
-    public int updateTKnowledge(TKnowledge tKnowledge);
+    public int updateTKnowledge(TKnowledge tKnowledge, MultipartFile[] file);
 
     /**
      * 批量删除【请填写功能名称】
