@@ -44,10 +44,9 @@
 
                         <li id="sorts">
 
-                                <label  class="check-box" name="box" >
-                                    <input name="role" type="checkbox">管理员
-
-                                </label>
+                            <label th:each="sorts:${sorts}" class="check-box">
+                                <input name="sorts" type="checkbox" th:value="${sorts.id}" th:text="${sorts.sort}"  >
+                            </label>
 
 
                         </li>

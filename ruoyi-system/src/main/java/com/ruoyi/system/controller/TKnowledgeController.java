@@ -48,8 +48,10 @@ public class TKnowledgeController extends BaseController
 
     @RequiresPermissions("system:knowledge:view")
     @GetMapping()
-    public String knowledge()
+    public String knowledge( ModelMap modelMap)
     {
+        modelMap.put("sorts", tKnownledgeSortService.selectTKnownledgeSortList(null));
+        modelMap.put("orgs", tOrgService.getChild(tOrgService.selectTOrgList(null)));
         return prefix + "/knowledge";
     }
 
@@ -59,9 +61,8 @@ public class TKnowledgeController extends BaseController
     @RequiresPermissions("system:knowledge:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(TKnowledge tKnowledge, ModelMap modelMap) {
-        modelMap.put("orgs", tKnownledgeSortService.selectTKnownledgeSortList(null));
-        modelMap.put("sorts", tOrgService.getChild(tOrgService.selectTOrgList(null)));
+    public TableDataInfo list(TKnowledge tKnowledge) {
+
         startPage();
         List<TKnowledge> list = tKnowledgeService.selectTKnowledgeList(tKnowledge);
         return getDataTable(list);
