@@ -40,7 +40,15 @@
                             <p>关键字：</p>
                             <input type="text" name="keyword"/>
                         </li>
+
+
                         <li id="sorts">
+
+                                <label  class="check-box" name="box" >
+                                    <input name="role" type="checkbox">管理员
+
+                                </label>
+
 
                         </li>
                         <li>
@@ -51,6 +59,7 @@
                         </li>
                     </ul>
                 </div>
+
             </form>
         </div>
 
@@ -85,8 +94,16 @@
         // 问题分类
         $.get("/system/sort/get", function (data, status) {
             var sorts = $("#sorts");
+            var box = $("[name='box']").clone(true);
+            console.log("box:"+box.html());
+
             for (var i = 0; i < data.length; i++) {
-                sorts.append(data[i].sort + "<input name=sorts  type=checkbox value=" + data[i].id + ">");
+                console.log("类型："+data[i].sort);
+                box.text(data[i].sort);
+
+               sorts.append(box);
+
+
             }
         });
 
@@ -95,6 +112,7 @@
         $.get("/system/org/get", function (data, status) {
             var dataOrg = $("#dataOrg");
             for (var i = 0; i < data.length; i++) {
+
                 dataOrg.append("<option value='" + data[i].dataOrg + "'>" + data[i].name + "</option>");
             }
         });
